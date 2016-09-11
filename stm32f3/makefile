@@ -8,7 +8,6 @@ include ../../../flags.mk
 
 outputdir = ./obj
 srcdir = ./src
-stmsrcdir = ./stm/src
 
 modpath = ../../../modules
 
@@ -17,15 +16,13 @@ TESTSRC = ./test
 UTESTSRC = ../../../punit/src/test.c
 UTESTINC = ../../../punit/inc
 
-objects = $(patsubst $(srcdir)/%.cpp,$(outputdir)/%.o,$(wildcard $(srcdir)/*.cpp))
-stmobjects = $(patsubst $(stmsrcdir)/%.c,$(outputdir)/%.o,$(wildcard $(stmsrcdir)/*.c))
-testobjects = $(subst $(TESTSRC)/,$(outputdir)/,$(patsubst %.cpp, %.o, $(wildcard $(TESTSRC)/*.cpp)))
+objects = $(patsubst $(srcdir)/%.c,$(outputdir)/%.o,$(wildcard $(srcdir)/*.c))
+
 
 # list of all modules that the application depends on
-moddeps = utils
+
 
 # for each module, define the module object files. 
-moduleobjs = $(foreach module, $(moddeps), $(wildcard $(modpath)/$(module)/$(mcu)/obj/*.o) ) $(foreach module, $(moddeps), $(wildcard $(modpath)/$(module)/common/obj/*.o) )
 
 
 ifeq ($(MAKECMDGOALS), test)
@@ -33,19 +30,11 @@ ifeq ($(MAKECMDGOALS), test)
 	COMPILE_C = cc -c -Wall -g3
 endif
 
-all: $(objects) $(stmobjects) $(moddeps)
+all: $(objects)
 
-$(moddeps) : 
-	cd $(modpath)/$@ && $(MAKE)
-
-$(outputdir)/%.o: $(srcdir)/%.cpp
-	$(COMPILE_CPP) $(includes) -DSTM32F30X $^ -o $@
-
-$(outputdir)/%.o: $(stmsrcdir)/%.c
+$(outputdir)/%.o: $(srcdir)/%.c
 	$(COMPILE_C) $(includes) -DSTM32F30X $^ -o $@	
 
-$(outputdir)/%.o: $(TESTSRC)/%.cpp
-	$(COMPILE_CPP) $(testincludes) -I$(UTESTINC) -DSTM32F30X -c $^ -o $@
 	
 
 testframework: $(UTESTSRC)

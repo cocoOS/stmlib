@@ -1,7 +1,6 @@
 mcu = $(filter-out makefile,$(notdir $(wildcard *)))
 
-all test: $(mcu)
-#test: $(mcutarget)
+all: $(mcu)
 
 $(mcu): FORCE
 	cd ./$@ && $(MAKE) $(MAKECMDGOALS)

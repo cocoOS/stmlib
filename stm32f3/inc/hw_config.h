@@ -30,11 +30,9 @@
 #define __HW_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
-
 #include <inc/usb_type.h>
 #ifdef STM32F30X
  #include <inc/stm32f30x.h>
-
 #endif /* STM32F30X */
 
 /* Exported types ------------------------------------------------------------*/

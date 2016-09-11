@@ -8,7 +8,6 @@ include ../../../flags.mk
 
 outputdir = ./obj
 srcdir = ./src
-stmsrcdir = ./stm/src
 usbsrcdir = ./usb/src
 modpath = ../../../modules
 
@@ -17,16 +16,14 @@ TESTSRC = ./test
 UTESTSRC = ../../../punit/src/test.c
 UTESTINC = ../../../punit/inc
 
-objects = $(patsubst $(srcdir)/%.cpp,$(outputdir)/%.o,$(wildcard $(srcdir)/*.cpp))
-stmobjects = $(patsubst $(stmsrcdir)/%.c,$(outputdir)/%.o,$(wildcard $(stmsrcdir)/*.c))
+objects = $(patsubst $(srcdir)/%.c,$(outputdir)/%.o,$(wildcard $(srcdir)/*.c))
 usbobjects = $(patsubst $(usbsrcdir)/%.c,$(outputdir)/%.o,$(wildcard $(usbsrcdir)/*.c))
-testobjects = $(subst $(TESTSRC)/,$(outputdir)/,$(patsubst %.cpp, %.o, $(wildcard $(TESTSRC)/*.cpp)))
+
 
 # list of all modules that the application depends on
-moddeps = utils
+
 
 # for each module, define the module object files. 
-moduleobjs = $(foreach module, $(moddeps), $(wildcard $(modpath)/$(module)/$(mcu)/obj/*.o) ) $(foreach module, $(moddeps), $(wildcard $(modpath)/$(module)/common/obj/*.o) )
 
 
 ifeq ($(MAKECMDGOALS), test)
@@ -34,23 +31,15 @@ ifeq ($(MAKECMDGOALS), test)
 	COMPILE_C = cc -c -Wall -g3
 endif
 
-all: $(objects) $(stmobjects) $(usbobjects) $(moddeps)
+all: $(objects) $(usbobjects)
 
 
-$(moddeps) : 
-	cd $(modpath)/$@ && $(MAKE)
-	
-$(outputdir)/%.o: $(srcdir)/%.cpp
-	$(COMPILE_CPP) $(includes) $^ -o $@
-	
-$(outputdir)/%.o: $(stmsrcdir)/%.c
+$(outputdir)/%.o: $(srcdir)/%.c
 	$(COMPILE_C) $(includes) -DHSE_VALUE=8000000  $^ -o $@
 
 $(outputdir)/%.o: $(usbsrcdir)/%.c
 	$(COMPILE_C) $(includes) -DHSE_VALUE=8000000  $^ -o $@
 
-$(outputdir)/%.o: $(TESTSRC)/%.cpp
-	$(COMPILE_CPP) $(testincludes) -I$(UTESTINC)  $^ -o $@
 
 testframework: $(UTESTSRC)
 	cc -c -I$(UTESTINC) $(DEFINES) $^ -o $(outputdir)/testframework.o	

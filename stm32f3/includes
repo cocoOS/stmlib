@@ -1,2 +1,1 @@
-includes = -I. -I./stm -I./stm/inc -I../../utils/common
-testincludes = -I. -I./test -I../../utils/common
+includes = -I.  -I./inc 
