@@ -7,53 +7,26 @@ include ../../../flags.mk
 
 
 outputdir = ./obj
-srcdir = ./src
-usbsrcdir = ./usb/src
+srcdir = ./src ./usb/src
+#usbsrcdir = ./usb/src
 modpath = ../../../modules
 
-#Unit test
-TESTSRC = ./test
-UTESTSRC = ../../../punit/src/test.c
-UTESTINC = ../../../punit/inc
+# for each source path above, collect all .cpp, .c and .s files. These are the application sources.
+sources = $(foreach path, $(srcdir), $(notdir $(wildcard $(path)/*.c)))
 
-objects = $(patsubst $(srcdir)/%.c,$(outputdir)/%.o,$(wildcard $(srcdir)/*.c))
-usbobjects = $(patsubst $(usbsrcdir)/%.c,$(outputdir)/%.o,$(wildcard $(usbsrcdir)/*.c))
+# from the sources, define the application object files.
+objects = $(patsubst %,$(outputdir)/%,$(addsuffix .o,$(basename $(sources))))
 
-
-# list of all modules that the application depends on
+all: $(objects)
 
 
-# for each module, define the module object files. 
-
-
-ifeq ($(MAKECMDGOALS), test)
-	COMPILE_CPP = g++ -c -Wall -g3
-	COMPILE_C = cc -c -Wall -g3
-endif
-
-all: $(objects) $(usbobjects)
-
-
-$(outputdir)/%.o: $(srcdir)/%.c
+$(outputdir)/%.o: ./src/%.c
 	$(COMPILE_C) $(includes) -DHSE_VALUE=8000000  $^ -o $@
 
-$(outputdir)/%.o: $(usbsrcdir)/%.c
+$(outputdir)/%.o: ./usb/src/%.c
 	$(COMPILE_C) $(includes) -DHSE_VALUE=8000000  $^ -o $@
 
 
-testframework: $(UTESTSRC)
-	cc -c -I$(UTESTINC) $(DEFINES) $^ -o $(outputdir)/testframework.o	
-
-test: testframework $(objects) $(testobjects)
-	@echo .
-	@echo "linking unittests"
-	g++ -o $(outputdir)/testprog $(outputdir)/testframework.o $(objects) $(testobjects)
-	@echo .
-	@echo "running tests"
-	$(outputdir)/testprog
-
-
-test: includes = $(testincludes)
 	
 clean:
 	rm $(outputdir)/*.o

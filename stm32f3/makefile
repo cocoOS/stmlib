@@ -7,49 +7,31 @@ include ../../../flags.mk
 
 
 outputdir = ./obj
-srcdir = ./src
+srcdir = ./src ./usb_drv/src
 
 modpath = ../../../modules
 
-#Unit test
-TESTSRC = ./test
-UTESTSRC = ../../../punit/src/test.c
-UTESTINC = ../../../punit/inc
+# for each source path above, collect all .cpp, .c and .s files. These are the application sources.
+sources = $(foreach path, $(srcdir), $(notdir $(wildcard $(path)/*.c)))
 
-objects = $(patsubst $(srcdir)/%.c,$(outputdir)/%.o,$(wildcard $(srcdir)/*.c))
+# from the sources, define the application object files.
+objects = $(patsubst %,$(outputdir)/%,$(addsuffix .o,$(basename $(sources))))
 
 
+#objects = $(patsubst $(srcdir)/%.c,$(outputdir)/%.o,$(wildcard $(srcdir)/*.c))
 # list of all modules that the application depends on
 
 
 # for each module, define the module object files. 
 
-
-ifeq ($(MAKECMDGOALS), test)
-	COMPILE_CPP = g++ -c -Wall -g3
-	COMPILE_C = cc -c -Wall -g3
-endif
-
 all: $(objects)
 
-$(outputdir)/%.o: $(srcdir)/%.c
-	$(COMPILE_C) $(includes) -DSTM32F30X $^ -o $@	
+$(outputdir)/%.o: ./src/%.c
+	$(COMPILE_C) $(includes) -DSTM32F30X $^ -o $@
 
-	
+$(outputdir)/%.o: ./usb_drv/src/%.c
+	$(COMPILE_C) $(includes) -DSTM32F30X $^ -o $@
 
-testframework: $(UTESTSRC)
-	cc -c -I$(UTESTINC) $(DEFINES) $^ -o $(outputdir)/testframework.o	
-
-test: testframework $(objects) $(testobjects)
-	@echo .
-	@echo "linking unittests"
-	g++ -o $(outputdir)/testprog $(outputdir)/testframework.o $(testobjects) $(objects)
-	@echo .
-	@echo "running tests"
-	$(outputdir)/testprog
-
-
-test: includes = $(testincludes)
 
 
 clean:
@@ -61,4 +43,6 @@ help:
 	@echo " >make all host=win, builds mcal and stm files for arm on windows machine"
 	@echo " >make test, builds and runs unit tests on the current host machine"
 	
+names: 
+	@echo $(objects)
 	
