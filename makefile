@@ -12,6 +12,8 @@ clean:
 	-rm ./stm32f3/obj/*.d
 	-rm ./stm32f4/obj/*.o
 	-rm ./stm32f4/obj/*.d
+	-rm ./stm32f446/obj/*.o
+	-rm ./stm32f446/obj/*.d
 	
 	
 help:
