@@ -3,13 +3,12 @@ host = linux
 mcu = stm32f3
 
 include includes
-include ../../../flags.mk
+include ../../flags.mk
 
 
 outputdir = ./obj
 srcdir = ./src ./usb_drv/src
 
-modpath = ../../../modules
 
 # for each source path above, collect all .cpp, .c and .s files. These are the application sources.
 sources = $(foreach path, $(srcdir), $(notdir $(wildcard $(path)/*.c)))

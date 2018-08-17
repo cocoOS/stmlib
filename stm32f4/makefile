@@ -3,7 +3,7 @@ host = linux
 mcu = stm32f4
 
 include includes
-include ../../../flags.mk
+include ../../flags.mk
 
 
 outputdir = ./obj
