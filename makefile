@@ -17,8 +17,6 @@ clean:
 	
 	
 help:
-	@echo ">make mcu=targetname,  builds mcal for the specified target on linux"
-	@echo ">make mcu=targetname host=win,  builds mcal for the specified target on windows"
-	@echo ">make all, builds mcal module for all target mcu's on linux machine"
-	@echo ">make all host=win builds mcal module for all target mcu's on windows machine"
-	@echo " >make test, builds and runs unit tests on the current host machine"
+	@echo ">make mcu=targetname,  builds for the specified target"
+	@echo ">make all, builds module for all target mcu's"
+

@@ -1,10 +1,19 @@
-#default values for host and mcu
-host = linux
-mcu = stm32f3
 
 include includes
-include ../../flags.mk
+CPP_COMPILE_PATH = /home/peter/opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-g++
+C_COMPILE_PATH =   /home/peter/opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc
+ASSEM_PATH =       /home/peter/opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc
 
+
+CPP_FLAGS = -c -mcpu=cortex-m3 -mthumb -mlittle-endian -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -fno-threadsafe-statics -g3 -ggdb -std=gnu++11 -fabi-version=0 -MMD -MP
+C_FLAGS =   -c -mcpu=cortex-m3 -mthumb -mlittle-endian -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -ggdb -std=gnu11 -nostdlib -MMD -MP
+ASSEM_FLAGS = -mcpu=cortex-m3 -mthumb -mlittle-endian -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections  -g3 -ggdb -x assembler-with-cpp
+
+
+
+COMPILE_C = $(C_COMPILE_PATH) $(C_FLAGS)
+COMPILE_CPP = $(CPP_COMPILE_PATH) $(CPP_FLAGS)
+ASSEM = $(ASSEM_PATH) $(ASSEM_FLAGS)
 
 outputdir = ./obj
 srcdir = ./src ./usb_drv/src
@@ -15,13 +24,6 @@ sources = $(foreach path, $(srcdir), $(notdir $(wildcard $(path)/*.c)))
 
 # from the sources, define the application object files.
 objects = $(patsubst %,$(outputdir)/%,$(addsuffix .o,$(basename $(sources))))
-
-
-#objects = $(patsubst $(srcdir)/%.c,$(outputdir)/%.o,$(wildcard $(srcdir)/*.c))
-# list of all modules that the application depends on
-
-
-# for each module, define the module object files. 
 
 all: $(objects)
 
@@ -38,9 +40,7 @@ clean:
 	rm $(outputdir)/*.d
 
 help: 
-	@echo " >make all, builds mcal and stm files for arm on linux machine"
-	@echo " >make all host=win, builds mcal and stm files for arm on windows machine"
-	@echo " >make test, builds and runs unit tests on the current host machine"
+	@echo " >make all, builds stm files for arm o"
 	
 names: 
 	@echo $(objects)
