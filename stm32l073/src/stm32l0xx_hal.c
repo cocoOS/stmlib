@@ -238,7 +238,7 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   HAL_StatusTypeDef  status = HAL_OK;
 
   /*Configure the SysTick to have interrupt in 1ms time basis*/
-  if (HAL_SYSTICK_Config(SystemCoreClock/1000UL) != 0U)
+  if (HAL_SYSTICK_Config(SystemCoreClock/100UL) != 0U)
   {
     status = HAL_ERROR;
   }
@@ -325,6 +325,7 @@ __weak void HAL_Delay(uint32_t Delay)
 
   while((HAL_GetTick() - tickstart) < wait)
   {
+    //HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
   }
 }
 
