@@ -152,16 +152,16 @@ HAL_StatusTypeDef HAL_Init(void)
   __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
 #endif /* PREFETCH_ENABLE */
 
-  /* Use SysTick as time base source and configure 1ms tick (default clock after Reset is MSI) */
-  if (HAL_InitTick(TICK_INT_PRIORITY) != HAL_OK)
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Init the low level hardware */
-    HAL_MspInit();
-  }
+//  /* Use SysTick as time base source and configure 1ms tick (default clock after Reset is MSI) */
+//  if (HAL_InitTick(TICK_INT_PRIORITY) != HAL_OK)
+//  {
+//    status = HAL_ERROR;
+//  }
+//  else
+//  {
+//    /* Init the low level hardware */
+//    HAL_MspInit();
+//  }
 
   /* Return function status */
   return status;
