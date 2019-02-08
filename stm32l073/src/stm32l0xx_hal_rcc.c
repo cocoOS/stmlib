@@ -263,11 +263,11 @@ HAL_StatusTypeDef HAL_RCC_DeInit(void)
   SystemCoreClock = MSI_VALUE;
 
   /* Configure the source of time base considering new system clock settings  */
-  status = HAL_InitTick(TICK_INT_PRIORITY);
-  if(status != HAL_OK)
-  {
-    return status;
-  }
+//  status = HAL_InitTick(TICK_INT_PRIORITY);
+//  if(status != HAL_OK)
+//  {
+//    return status;
+//  }
 
   /* Reset HSE, HSI, CSS, PLL */
 #if defined(RCC_CR_CSSHSEON) && defined(RCC_CR_HSIOUTEN)
@@ -447,11 +447,11 @@ HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
       SystemCoreClock = HAL_RCC_GetSysClockFreq() >> AHBPrescTable[(RCC->CFGR & RCC_CFGR_HPRE)>> RCC_CFGR_HPRE_Pos];
 
       /* Configure the source of time base considering new system clocks settings*/
-      status = HAL_InitTick (TICK_INT_PRIORITY);
-      if(status != HAL_OK)
-      {
-        return status;
-      }
+//      status = HAL_InitTick (TICK_INT_PRIORITY);
+//      if(status != HAL_OK)
+//      {
+//        return status;
+//      }
     }
     else
     {
@@ -523,11 +523,11 @@ HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
                            >> AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> RCC_CFGR_HPRE_Pos)];
 
         /* Configure the source of time base considering new system clocks settings*/
-        status = HAL_InitTick (TICK_INT_PRIORITY);
-        if(status != HAL_OK)
-        {
-          return status;
-        }
+//        status = HAL_InitTick (TICK_INT_PRIORITY);
+//        if(status != HAL_OK)
+//        {
+//          return status;
+//        }
       }
     }
     else
@@ -1006,11 +1006,11 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
   SystemCoreClock = HAL_RCC_GetSysClockFreq() >> AHBPrescTable[(RCC->CFGR & RCC_CFGR_HPRE)>> RCC_CFGR_HPRE_Pos];
 
   /* Configure the source of time base considering new system clocks settings*/
-  status = HAL_InitTick(TICK_INT_PRIORITY);
-  if(status != HAL_OK)
-  {
-    return status;
-  }
+//  status = HAL_InitTick(TICK_INT_PRIORITY);
+//  if(status != HAL_OK)
+//  {
+//    return status;
+//  }
 
   return HAL_OK;
 }
