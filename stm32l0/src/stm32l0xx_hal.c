@@ -238,7 +238,7 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   HAL_StatusTypeDef  status = HAL_OK;
 
   /*Configure the SysTick to have interrupt in 1ms time basis*/
-  if (HAL_SYSTICK_Config(SystemCoreClock/10UL) != 0U)
+  if (HAL_SYSTICK_Config(SystemCoreClock/1000UL) != 0U)
   {
     status = HAL_ERROR;
   }

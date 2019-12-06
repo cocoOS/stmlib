@@ -280,6 +280,13 @@ void HAL_GPIO_Init(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
   }
 }
 
+
+
+
+
+
+
+
 /**
   * @brief  De-initializes the GPIOx peripheral registers to their default reset values.
   * @param  GPIOx where x can be (A..E and H) to select the GPIO peripheral for STM32L0XX family devices.

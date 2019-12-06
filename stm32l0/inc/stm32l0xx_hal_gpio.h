@@ -274,6 +274,7 @@ typedef enum
  *  @{
  */
 void  HAL_GPIO_Init(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init);
+void  HAL_GPIO_Init2(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init);
 void  HAL_GPIO_DeInit(GPIO_TypeDef  *GPIOx, uint32_t GPIO_Pin);
 /**
   * @}
